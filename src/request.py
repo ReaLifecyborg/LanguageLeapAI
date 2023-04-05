@@ -12,9 +12,11 @@ APP_INPUT_ID = int(getenv('CABLE_INPUT_ID'))
 def request(sentence):
     url = 'https://api.rinna.co.jp/models/cttse/koeiro'
     headers = {'Content-Type': 'application/json'}
-    body = {'text': sentence, 'speaker_x': 0.0, 'speaker_y': 0.0, 'style': 'talk'}
+    body = {'text': sentence, 'speaker_x': 0.75, 'speaker_y': 1.25, 'style': 'happy'}
     response = requests.post(url, headers=headers, json=body)
     base64_string = re.search('(?<=base64,)\\S+', response.text).group(0).replace('"', '')
+    while len(base64_string) % 4 != 0:
+        base64_string += '='
     decoded_audio = base64.b64decode(base64_string)
     output_file_path = Path(__file__).resolve().parents[2] / 'src' / 'audio' / 'tts.wav' # Update the output file path
     with open(output_file_path, 'wb') as f:  # Update the file path in the 'open' statement
