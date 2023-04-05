@@ -11,10 +11,11 @@ import requests
 from dotenv import load_dotenv
 
 from modules.asr import speech_to_text
-from modules.tts import speak
+from modules.request import request
 
 load_dotenv()
 
+p = pyaudio.PyAudio()
 USE_DEEPL = getenv('USE_DEEPL', 'False').lower() in ('true', '1', 't')
 DEEPL_AUTH_KEY = getenv('DEEPL_AUTH_KEY')
 TARGET_LANGUAGE = getenv('TARGET_LANGUAGE_CODE')
@@ -24,7 +25,6 @@ LOGGING = getenv('LOGGING', 'False').lower() in ('true', '1', 't')
 MIC_AUDIO_PATH = Path(__file__).resolve().parent / r'audio/mic.wav'
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-
 
 def on_press_key(_):
     global frames, recording, stream
@@ -77,7 +77,8 @@ def on_release_key(_):
             print(f'English: {eng_speech}')
             print(f'Translated: {translated_speech}')
 
-        speak(translated_speech, TARGET_LANGUAGE)
+        # Call request() function to handle TTS output
+        request(translated_speech)
 
     else:
         print('No speech detected.')
