@@ -24,3 +24,10 @@ def request(sentence):
     threads = [Thread(target=play_voice, args=[APP_INPUT_ID]), Thread(target=play_voice, args=[SPEAKERS_INPUT_ID])]
     [t.start() for t in threads]
     [t.join() for t in threads]
+
+if __name__ == '__main__':
+    while True:
+        input_sentence = input('English: ')
+        request(input_sentence)
+        with open(Path(__file__).resolve().parents[2] / 'src' / 'audio' / 'tts.wav', 'rb') as f:
+            play_voice(APP_INPUT_ID, f.read())
