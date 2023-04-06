@@ -2,7 +2,7 @@ import requests
 from os import getenv
 import base64
 from threading import Thread
-from modules.audio_to_device import play_voice
+from modules.tts import play_voice
 import re
 from pathlib import Path
 
@@ -12,7 +12,7 @@ APP_INPUT_ID = int(getenv('CABLE_INPUT_ID'))
 def request(sentence):
     url = 'https://api.rinna.co.jp/models/cttse/koeiro'
     headers = {'Content-Type': 'application/json'}
-    body = {'text': sentence, 'speaker_x': 0.75, 'speaker_y': 1.25, 'style': 'happy'}
+    body = {'text': sentence, 'speaker_x': 1.02, 'speaker_y': 2.59, 'style': 'happy'}
     response = requests.post(url, headers=headers, json=body)
     base64_string = re.search('(?<=base64,)\\S+', response.text).group(0).replace('"', '')
     while len(base64_string) % 4 != 0:
