@@ -12,7 +12,7 @@ APP_INPUT_ID = int(getenv('CABLE_INPUT_ID'))
 def request(sentence):
     url = 'https://api.rinna.co.jp/models/cttse/koeiro'
     headers = {'Content-Type': 'application/json'}
-    body = {'text': sentence, 'speaker_x': 1.02, 'speaker_y': 2.59, 'style': 'happy'}
+    body = {'text': sentence, 'speaker_x': 0.00, 'speaker_y': 0.00, 'style': 'talk'}
     response = requests.post(url, headers=headers, json=body)
     base64_string = re.search('(?<=base64,)\\S+', response.text).group(0).replace('"', '')
     while len(base64_string) % 4 != 0:
